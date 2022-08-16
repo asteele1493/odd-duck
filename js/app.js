@@ -68,15 +68,33 @@ document.getElementById('thirdImage') === generatedImg[2];
 
 
 //Event Listener steps///////////////////////////
+
 let firstButton = document.getElementById('imageButton1');
-firstButton.addEventListener('click', generatedImgs()[0]);
+firstButton.addEventListener('click', generatedImgs[1]);
 
 let secondButton = document.getElementById('imageButton2');
-secondButton.addEventListener('click', generatedImgs()[1]);
+secondButton.addEventListener('click', generatedImgs[1]);
 
 let thirdButton = document.getElementById('imageButton3');
-thirdButton.addEventListener('click', generatedImgs()[2]);
+thirdButton.addEventListener('click', generatedImgs[2]);
 
 
 console.log(generatedImg);
 generatedImgs();
+
+
+// Remove event listeners on the product after voting rounds have been completed
+// Add view results button that, when clicked, displays the list of all products followed by the votes received, and number of
+// times seen for each. Ex. banana had 3 clicks, and was seen 5 times.
+// Use this.name to display results.
+
+//Displaying results
+
+let resultButton = document.getElementById('resultButton');
+
+function allResults(){
+  return `${Product.name} had ${Product.clicked} clicks, and was seen ${Product.shown} times.`;
+}
+resultButton.addEventListener('click', allResults);
+
+console.log(allResults());
