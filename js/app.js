@@ -1,11 +1,17 @@
 'use strict';
 
+//Global variables
+let currentRound = 0;
+let maxRound = 25;
+let generatedImg = [];
+
 //Constructor function for product images//////////////
 
 function Product(name, path){
   this.name = name;
-  this.clicked = 0;
   this.path = path;
+  this.clicked = 0;
+  this.shown = 0;
 }
 
 //Array containing all products utilizing constructor function to create them///
@@ -31,8 +37,6 @@ let allProducts = [
   new Product('wine-glass', 'img/wine-glass.jpg'),
 ];
 
-//Setting global variable for number of rounds counter
-//let currentRound = 0;
 
 /////////////////////////////////////////////////////////////////////////
 //Random number generator that returns array of random numbers within the index requested.
@@ -42,62 +46,37 @@ function randomImage(){
 }
 
 //using random image function to return three random images
-function multipleRandomImages(){
-  let imageA = randomImage();
-  let imageB = randomImage();
-  let imageC = randomImage();
-
-  while (imageA === imageB){
-    imageB = randomImage();
+function generatedImgs(){
+  while (generatedImg.length < 3){
+    let randomIndex = randomImage();
+    while(!generatedImg.includes(allProducts[randomIndex])){
+      generatedImg.push(allProducts[randomIndex]);
+      currentRound++;
+    }
+    if (currentRound === maxRound){
+      break;
+    }
   }
-  while (imageB === imageC){
-    imageC = randomImage();
-  }
-  return [imageA, imageB, imageC];
 }
 
-multipleRandomImages();
+// DOM Manipulation to display randomly generated images
+
+document.getElementById('firstImage') === generatedImg[0];
+document.getElementById('secondImage') === generatedImg[1];
+document.getElementById('thirdImage') === generatedImg[2];
 
 
-// // DOM Manipulation
-// let products = allProducts[multipleRandomImages()];
-// let imageA = document.getElementById("first");
-//   img.src = `img/${product.name}.jpg`;
-// let imageB = document.getElementById("second");
-//   img.src = `img/${product.name}.jpg`;
-// let imageC = document.getElementById("third");
-//   img.src = `img/${product.name}.jpg`;
 
-// //Event Listener steps///////////////////////////
-// let buttonA = document.getElementById("imageButton1");
-// button.addEventListener('click', showNewImages);
+//Event Listener steps///////////////////////////
+let firstButton = document.getElementById('imageButton1');
+firstButton.addEventListener('click', generatedImgs()[0]);
 
-// let buttonB = document.getElementById("imageButton2");
-// button.addEventListener('click', showNewImages);
+let secondButton = document.getElementById('imageButton2');
+secondButton.addEventListener('click', generatedImgs()[1]);
 
-// let buttonC = document.getElementById("imageButton3");
-// button.addEventListener('click', showNewImages);
+let thirdButton = document.getElementById('imageButton3');
+thirdButton.addEventListener('click', generatedImgs()[2]);
 
 
-// //This handler gets invoked when we click on the button
-// function showNewImages() {
-//   // Get a random product
-//   let products = allProducts[randomImage()];
-//   // Select the img
-//   let imgA = document.getElementById("first");
-//   let imgB = document.getElementById("second");
-//   let imgC = document.getElementById("third");
-//   // Make the img the product
-//   img.src = `img/${product.name}.jpg`;
-//   img.alt = product.name;
-//   img.title = product.name;
-//   // Increments shown product's .clicked property
-//   product.clicked++;
-//   console.log(product);
-//   currentRound++;
-//   // Logic for when voting rounds have completed:
-//   if (currentRound === 10) {
-//   // Remove my event listener
-//     button.removeEventListener('click', showNewImage);
-//   }
-// }
+console.log(generatedImg);
+generatedImgs();
