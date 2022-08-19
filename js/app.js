@@ -1,9 +1,9 @@
 'use strict';
 
 //Global variables
-let currentRound = 0;
 let maxRound = 25;
 let generatedImg = [];
+let currentRound = 0;
 
 //Constructor function for product images//////////////
 
@@ -13,6 +13,7 @@ function Product(name, path){
   this.clicked = 0;
   this.shown = 0;
 }
+
 
 //Array containing all products utilizing constructor function to create them///
 let allProducts = [
@@ -121,8 +122,10 @@ function renderImages(){
     imageButton1.removeEventListener('click', renderImages);
     imageButton2.removeEventListener('click', renderImages);
     imageButton3.removeEventListener('click', renderImages);
+    resultButton.addEventListener('click', allResults);
+  } else{
+    renderImages();
   }
-  currentRound++;
 }
 renderImages();
 
@@ -136,7 +139,12 @@ renderImages();
 let resultButton = document.getElementById('resultButton');
 
 function allResults(){
-  return `${this.name} had ${this.clicked} clicks, and was seen ${this.shown} times.`;
+  let ul = document.querySelector('ul');
+  for (let i = 0; i < Product.allProducts.length; i++){
+    let li = document.createElement('li');
+    li.textContent = `${this.name} had ${this.clicked} clicks, and was seen ${this.shown} times.`;
+    ul.appendChild(li);
+  }
 }
 resultButton.addEventListener('click', allResults);
 
