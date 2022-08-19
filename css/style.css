@@ -1,3 +1,34 @@
 .container{
-  display: grid;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  height: 300px;
+  display: flex;
+  flex-direction: row;
+}
+
+html {
+  background-color: #027373;
+  color: #172026;
+}
+
+header {
+  font-family: 'Silkscreen';
+  font-size: large;
+  font-weight: 300;
+}
+
+body {
+  background-color: #02735E;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer {
+  font-family: 'Silkscreen';
+  font-size: large;
+  font-weight: 300;
 }
