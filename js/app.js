@@ -7,6 +7,9 @@ let maxRound = 25;
 // empty array to push generated images into.
 let generatedImg = [];
 
+// array for local storage///////////////
+let storageProduct = allProducts[];
+
 //Constructor function for product images//////////////
 
 function Product (name, path){
@@ -67,7 +70,22 @@ function generatedImgs(){
   }
   return generatedImg;
 }
-generatedImgs();
+
+//Save settings to local storage////////////////
+function setProducts(){
+  let setProducts = JSON.stringify(key, value); 
+  localStorage.setItem("key", stringify);
+}
+
+//Function to get items from local storage////////
+function getProducts(){
+  let getProducts = localStorage.getProduct("");
+  if(getProducts){
+    products = JSON.parse(getProducts);
+  }
+}
+
+//
 
 //Event Listener steps///////////////////////////
 // add event listener method takes in two arguments. the event, and the event handler. pass in reference to the event handler.
@@ -160,3 +178,42 @@ function allResults(){
     }
   }
 }
+
+
+generatedImgs();
+
+///////Generate Chart//////////////////////
+function generateChart() {
+  const labels = labels;
+
+const data = {
+  labels: labels,
+  datasets: [
+  {
+    label: 'Shown',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: shown,
+  },
+  {label: 'Clicked',
+    backgroundColor: 'rgb(255, 99, 132)',
+    borderColor: 'rgb(255, 99, 132)',
+    data: clicks,
+  },
+],
+
+};
+
+const config = {
+type: 'bar',
+data: data,
+options: {
+},
+};
+const myChart = new Chart(
+  document.getElementById('chart'),
+  config
+);
+}
+
+generateChart();
