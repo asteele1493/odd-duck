@@ -1,13 +1,15 @@
 'use strict';
 
 //Global variables
-let maxRound = 25;
-let generatedImg = [];
 let currentRound = 0;
+let maxRound = 25;
+
+// empty array to push generated images into.
+let generatedImg = [];
 
 //Constructor function for product images//////////////
 
-function Product(name, path){
+function Product (name, path){
   this.name = name;
   this.path = path;
   this.clicked = 0;
@@ -65,6 +67,7 @@ function generatedImgs(){
   }
   return generatedImg;
 }
+generatedImgs();
 
 //Event Listener steps///////////////////////////
 // add event listener method takes in two arguments. the event, and the event handler. pass in reference to the event handler.
@@ -78,21 +81,23 @@ let imageButton3 = document.getElementById('imageButton3');
 imageButton3.addEventListener('click', renderImages);
 
 
-console.log(renderImages);
+//console.log(renderImages);
 
 //
 
 // Event Handler; where images are going to be displayed?/////////////////////////////////
-function renderImages(){
-  generatedImgs();
+function renderImages(event){
+  //generatedImgs();
   let firstImage = generatedImg[0];
   let imgA = document.getElementById('firstImage');
   imgA.src = `img/${firstImage.name}.jpg`;
   imgA.alt = firstImage.name;
   imgA.title = firstImage.name;
   firstImage.shown++;
-  if (document.getElementById('firstImage').clicked === true){
-    firstImage.clicked++;
+  if (event){
+    if(imgA === event.target){
+      firstImage.clicked++;
+    }
   }
   console.log(firstImage);
 
@@ -102,10 +107,11 @@ function renderImages(){
   imgB.alt = secondImage.name;
   imgB.title = secondImage.name;
   secondImage.shown++;
-  if (document.getElementById('firstImage').clicked === true){
-    secondImage.clicked++;
+  if (event){
+    if(imgB === event.target){
+      secondImage.clicked++;
+    }
   }
-  console.log(secondImage);
 
   let thirdImage = generatedImg[2];
   let imgC = document.getElementById('thirdImage');
@@ -113,8 +119,11 @@ function renderImages(){
   imgC.alt = thirdImage.name;
   imgC.title = thirdImage.name;
   thirdImage.shown++;
-  if (document.getElementById('firstImage').clicked === true){
-    thirdImage.clicked++;
+  if (event){
+    if(imgC === event.target){
+      thirdImage.clicked++;
+    }
+    currentRound++;
   }
   console.log(thirdImage);
 
@@ -122,12 +131,11 @@ function renderImages(){
     imageButton1.removeEventListener('click', renderImages);
     imageButton2.removeEventListener('click', renderImages);
     imageButton3.removeEventListener('click', renderImages);
-    resultButton.addEventListener('click', allResults);
   } else{
-    renderImages();
+    //renderImages();
+    generatedImgs();
   }
 }
-renderImages();
 
 // Remove event listeners on the product after voting rounds have been completed
 // Add view results button that, when clicked, displays the list of all products followed by the votes received, and number of
@@ -137,16 +145,18 @@ renderImages();
 //Displaying results
 
 let resultButton = document.getElementById('resultButton');
-
-function allResults(){
-  let ul = document.querySelector('ul');
-  for (let i = 0; i < Product.allProducts.length; i++){
-    let li = document.createElement('li');
-    li.textContent = `${this.name} had ${this.clicked} clicks, and was seen ${this.shown} times.`;
-    ul.appendChild(li);
-  }
-}
 resultButton.addEventListener('click', allResults);
 
 
-console.log(allResults);
+function allResults(){
+  if (currentRound === maxRound){
+    let ul = document.createElement('ul');
+    allResults.appendChild('ul');
+
+    for (let i = 0; i < allProducts.length; i++){
+      let li = document.createElement('li');
+      li.textContent = `${allProducts[i].name} had ${allProducts[i].clicked} clicks, and was seen ${allProducts[i].shown} times.`;
+      ul.appendChild(li);
+    }
+  }
+}
