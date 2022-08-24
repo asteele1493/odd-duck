@@ -1,3 +1,49 @@
 .container{
-  display: grid;
+  display: flex;
+  flex-direction: column;
+}
+h1 { 
+color: #172026;
+border: dashed;
+border-radius: 5px;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+h2 { 
+  color: #172026;
+  border: dashed;
+  border-radius: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  }
+  
+img {
+  height: 300px;
+  display: flex;
+  flex-direction: row;
+}
+
+html {
+  background-color: #027373;
+  color: #172026;
+}
+
+header {
+  font-family: 'Silkscreen';
+  font-size: large;
+  font-weight: 300;
+}
+
+body {
+  background-color: #02735E;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+ 
+}
+
+footer {
+  font-family: 'Silkscreen';
+  font-size: large;
+  font-weight: 300;
 }
