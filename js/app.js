@@ -1,7 +1,6 @@
 'use strict';
 
 //Global variables
-let currentRound = 0;
 let maxRound = 25;
 
 // empty array to push generated images into.
@@ -43,6 +42,7 @@ let allProducts = [
   new Product('wine-glass', 'img/wine-glass.jpg'),
 ];
 
+let currentRound = 0;
 
 /////////////////////////////////////////////////////////////////////////
 //Random number generator that returns array of random numbers within the index requested.
@@ -55,52 +55,61 @@ function randomImage(){
 
 function generatedImgs(){
   //Clear out the generatedImg array.
-  while (generatedImg.length > 0){
-    generatedImg.pop();
+  if (generatedImg.length > 0){
+    generatedImg.shift();
   }
-  while (generatedImg.length < 3){
+  while (generatedImg.length < 6){
     let randomIndex = randomImage();
-    while(!generatedImg.includes(allProducts[randomIndex])){
+    if(!generatedImg.includes(allProducts[randomIndex])){
       generatedImg.push(allProducts[randomIndex]);
-      currentRound++;
     }
     if (currentRound === maxRound){
-      break;
+      alert('You\'ve run out of selections. Click view results!' );
     }
   }
+  //not sure if this would work, but I'm thinking this would generate six random images and remove three that are unique from the previous set? I used pop previously.
+  generatedImg.shift();
+  generatedImg.shift();
+  generatedImg.shift();
   return generatedImg;
 }
 
 //Save settings to local storage////////////////
 function setProducts(){
-  let setProducts = JSON.stringify(key, value);
+  let stringify = JSON.stringify(allProducts);
+  localStorage.setIem(allProducts, stringify);
 }
 
 //Function to get items from local storage////////
 function getProducts(){
-  let getProducts = localStorage.getProduct("");
-  if(getProducts){
-    products = JSON.parse(getProducts);
+  let getProducts = localStorage.getItem(allProducts);
+  let parsedAllProducts = JSON.parse(getProducts);
+  return parsedAllProducts;
+}
+
+
+///Function to load settings on pageLoad//////////
+function pageLoad(){
+  let savedSettings = localStorage.getItem("allProducts");
+  if(!savedSettings){
+    return;
   }
 }
 
-//
 
 //Event Listener steps///////////////////////////
 // add event listener method takes in two arguments. the event, and the event handler. pass in reference to the event handler.
 let imageButton1 = document.getElementById('imageButton1');
-imageButton1.addEventListener('click', renderImages);
+imageButton1.addEventListener('onClick', renderImages);
 
 let imageButton2 = document.getElementById('imageButton2');
-imageButton2.addEventListener('click', renderImages);
+imageButton2.addEventListener('onClick', renderImages);
 
 let imageButton3 = document.getElementById('imageButton3');
-imageButton3.addEventListener('click', renderImages);
+imageButton3.addEventListener('onClick', renderImages);
 
 
 //console.log(renderImages);
-
-//
 
 // Event Handler; where images are going to be displayed?/////////////////////////////////
 function renderImages(event){
@@ -145,14 +154,16 @@ function renderImages(event){
   console.log(thirdImage);
 
   if (currentRound === maxRound){
-    imageButton1.removeEventListener('click', renderImages);
-    imageButton2.removeEventListener('click', renderImages);
-    imageButton3.removeEventListener('click', renderImages);
+    imageButton1.removeEventListener('onClick', renderImages);
+    imageButton2.removeEventListener('onClick', renderImages);
+    imageButton3.removeEventListener('onClick', renderImages);
   } else{
     //renderImages();
     generatedImgs();
   }
 }
+
+setProducts();
 
 // Remove event listeners on the product after voting rounds have been completed
 // Add view results button that, when clicked, displays the list of all products followed by the votes received, and number of
@@ -162,7 +173,7 @@ function renderImages(event){
 //Displaying results
 
 let resultButton = document.getElementById('resultButton');
-resultButton.addEventListener('click', allResults);
+resultButton.addEventListener('onClick', allResults);
 
 
 function allResults(){
@@ -180,39 +191,83 @@ function allResults(){
 
 
 generatedImgs();
+getProducts();
 
-///////Generate Chart//////////////////////
-function generateChart() {
-  const labels = labels;
+// Render chart////////////////////////
+function renderChart() {
+  let productNames = [];
+  for (let i = 0; i < allProducts.length; i++) {
+    productNames.push(allProducts[i].name);
+  }
 
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: 'Shown',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: shown,
-      },
-      {label: 'Clicked',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: clicks,
-      },
-    ],
+  let clicks = [];
+  for (let i = 0; i < allProducts.length; i++) {
+    clicks.push(allProducts[i].clicked);
+  }
+  /* refer to Chart.js > Chart Types > Bar Chart:
+  https://www.chartjs.org/docs/latest/charts/bar.html
+  and refer to Chart.js > Getting Started > Getting Started:
+  https://www.chartjs.org/docs/latest/getting-started/ */
 
-  };
-
-  const config = {
-    type: 'bar',
-    data: data,
-    options: {
+  const ctx = document.getElementById("chart").getContext("2d");
+  const chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: productNames,
+      datasets: [
+        {
+          label: "Clicks",
+          data: clicks,
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+          ],
+          borderWidth: 1,
+        },
+        {
+          label: "Shown",
+          data: clicks,
+          backgroundColor: [
+            "rgba(255, 99, 132, 0.2)",
+            "rgba(54, 162, 235, 0.2)",
+            "rgba(255, 206, 86, 0.2)",
+            "rgba(75, 192, 192, 0.2)",
+            "rgba(153, 102, 255, 0.2)",
+            "rgba(255, 159, 64, 0.2)",
+          ],
+          borderColor: [
+            "rgba(255, 99, 132, 1)",
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 206, 86, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(153, 102, 255, 1)",
+            "rgba(255, 159, 64, 1)",
+          ],
+          borderWidth: 1,
+        }
+      ],
     },
-  };
-  const myChart = new Chart(
-    document.getElementById('chart'),
-    config
-  );
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
 }
 
-generateChart();
+renderChart();
+pageLoad();
