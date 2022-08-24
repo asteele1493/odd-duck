@@ -8,7 +8,7 @@ let maxRound = 25;
 let generatedImg = [];
 
 // array for local storage///////////////
-let storageProduct = allProducts[];
+//let storageProduct = allProducts[];
 
 //Constructor function for product images//////////////
 
@@ -73,8 +73,7 @@ function generatedImgs(){
 
 //Save settings to local storage////////////////
 function setProducts(){
-  let setProducts = JSON.stringify(key, value); 
-  localStorage.setItem("key", stringify);
+  let setProducts = JSON.stringify(key, value);
 }
 
 //Function to get items from local storage////////
@@ -186,34 +185,34 @@ generatedImgs();
 function generateChart() {
   const labels = labels;
 
-const data = {
-  labels: labels,
-  datasets: [
-  {
-    label: 'Shown',
-    backgroundColor: 'rgb(255, 99, 132)',
-    borderColor: 'rgb(255, 99, 132)',
-    data: shown,
-  },
-  {label: 'Clicked',
-    backgroundColor: 'rgb(255, 99, 132)',
-    borderColor: 'rgb(255, 99, 132)',
-    data: clicks,
-  },
-],
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Shown',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: shown,
+      },
+      {label: 'Clicked',
+        backgroundColor: 'rgb(255, 99, 132)',
+        borderColor: 'rgb(255, 99, 132)',
+        data: clicks,
+      },
+    ],
 
-};
+  };
 
-const config = {
-type: 'bar',
-data: data,
-options: {
-},
-};
-const myChart = new Chart(
-  document.getElementById('chart'),
-  config
-);
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+    },
+  };
+  const myChart = new Chart(
+    document.getElementById('chart'),
+    config
+  );
 }
 
 generateChart();
